@@ -1,1 +1,1 @@
-# SoseolSocial
+# SocialSoseol
