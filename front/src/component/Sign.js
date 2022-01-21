@@ -126,6 +126,9 @@ function SignUp(props) {
     let nameChange = (e) => {
         setNameValue(e.target.value);
     }
+    let nameChange = (e) => {
+        setNameValue(e.target.value);
+    }
     let idChange = (e) => {
         setIdValue(e.target.value);
         if (idValue.length < 6) {
