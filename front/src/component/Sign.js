@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 const inputProps = {minLength: "6", maxLength: "15", step: "1"};
 
 function SignIn(props) {
-    const paperStyle={padding : 20, height:'50vh',width:500, margin: "20px auto"};
+    const paperStyle={padding : 20, height:'60vh',width:500, margin: "20px auto"};
     const avatarStyle={backgroundColor:'#1bbd7e'};
     const btnStyle = {margin:'8px 0'}
     const textStyle = {margin:'8px 0'}
@@ -23,15 +23,41 @@ function SignIn(props) {
         setPwValue(e.target.value);
     }
 
+    
     let btnSign = (e) => {
         e.preventDefault();
         setSign(1);
         console.log(1);
     }
+
+
+
     let btnSubmit = (e) => {
         e.preventDefault();
         setIdValue('');
         setPwValue('');
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "loginid":idValue,
+            "password":pwValue,
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:80/login", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+        //  로그인시 메인화면으로 이동하는 코드
+        //window.location.href = "/main";
+        
     }
 
     return (
@@ -61,19 +87,44 @@ function SignIn(props) {
       );
 };
 
-function SignUp() {
+function SignUp(props) {
     const paperStyle={padding : 20, height:'50vh',width:500, margin: "20px auto"};
     const avatarStyle={backgroundColor:'#1bbd7e'};
     const btnStyle = {margin:'8px 0'}
     const textStyle = {margin:'8px 0'}
-
+    const [nameValue, setNameValue] = useState('');
     const [idValue, setIdValue] = useState('');
     const [pwValue, setPwValue] = useState('');
     const [idErr,setIdErr] = useState(false);
     const [pwErr,setPwErr] = useState(false);
+    const {setSign} = props;
 
     function handleClick() {
-        window.location.href = "/main";
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "loginid":idValue,
+            "password":pwValue,
+            "nickname":nameValue,
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:80/register", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+        setSign(0);
+    }
+    let nameChange = (e) => {
+        setNameValue(e.target.value);
     }
     let idChange = (e) => {
         setIdValue(e.target.value);
@@ -99,7 +150,7 @@ function SignUp() {
                     <Avatar style={avatarStyle}><LockIcon/></Avatar>
                     <Typography variant="h5">Sign Up</Typography> 
                 </Grid>
-                <TextField style = {textStyle} label='이름' placeholder="Enter Name" inputProps={inputProps} fullWidth required/>
+                <TextField style = {textStyle} label='닉네임' placeholder="Enter NickName" inputProps={inputProps} onChange={(e) => nameChange(e)} fullWidth required/>
                 <TextField style = {textStyle} label='아이디' placeholder="Enter ID" inputProps={inputProps} onChange={(e) => idChange(e)} error={idErr === true ? true : false}  fullWidth required/>
                 <TextField style = {textStyle} label='비밀번호' placeholder="Enter password" type='password' onChange={(e) => pwChange(e)} error={pwErr === true ? true : false} inputProps={inputProps} fullWidth required/>
                 <Button onClick = {handleClick} type='submit' color='primary' variant="contained" style={btnStyle} disabled={(idErr || pwErr) ? true : false} fullWidth>sign up</Button>
@@ -113,7 +164,7 @@ function Sign() {
 
     return(
         <>
-            {sign === 0? <SignIn setSign={setSign}/> : <SignUp/>}
+            {sign === 0? <SignIn setSign={setSign}/> : <SignUp setSign={setSign}/>}
         </>
     )
 };
