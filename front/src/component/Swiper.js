@@ -9,7 +9,9 @@ import {AiOutlineHeart, AiTwotoneHeart} from 'react-icons/ai';
 
 function CustomCard() {
     const [heart,setHeart] = useState(false);
-    const cardStyle = {'margin' : '10px', 'width' : '500px'};
+    
+    const cardStyle = {'margin' : '10px', 'width' : '95%'};
+
     function heartClick() {
         setHeart(!heart);
     }
@@ -20,12 +22,12 @@ function CustomCard() {
                 <CardHeader
                     action={
                         <div>
-                             <IconButton aria-label="settings" >
-                            <DeleteOutlined />
-                        </IconButton>
-                        <IconButton aria-label="settings" onClick={heartClick}>
-                        {heart === false?  <AiOutlineHeart/>: <AiTwotoneHeart color="red"/>}
-                        </IconButton>
+                            <IconButton aria-label="settings" >
+                                <DeleteOutlined />
+                            </IconButton>
+                            <IconButton aria-label="settings" onClick={heartClick}>
+                            {heart === false?  <AiOutlineHeart/>: <AiTwotoneHeart color="red"/>}
+                            </IconButton>
                         </div>
                     }
                     title = "test"
@@ -41,18 +43,27 @@ function CustomCard() {
     )
 }
 
-function MainSwipe() {
-    const [cardList,setCardList] = useState([]);
+function MainSwipe(props) {
+    const {novelList,setNovelList} = props
     const cardStyle = {'margin' : '10px', 'width' : '600px'};
+    const showNovelList = novelList.map( (card, index) => {
+        console.log(index);
+        return (novelList[index] === true ? <SwiperSlide key={index} onClick={()=>{makeNovel(index)}}> 
+        <CustomCard ></CustomCard >
+        </SwiperSlide > : <></>)
+        }
+    )
 
-    function clickTest(id) {
-        console.log("clicked", id);
+    function makeNovel(index) {
+        var tmp = novelList;
+        tmp[index] = false;
+        setNovelList([...tmp])
     }
 
     SwiperCore.use([Navigation]);
 
     return (
-        <div style={{'padding' : '10px', 'marginTop':'70px'}}>
+        <div style={{'padding' : '10px', 'marginTop':'30px'}}>
             <Swiper 
             style={cardStyle}
             spaceBetween={50}
@@ -62,23 +73,9 @@ function MainSwipe() {
             onSwiper={swiper => console.log(swiper)
             }
             > 
-                <SwiperSlide onClick={()=>clickTest(1)} >
-                <CustomCard >hi1</CustomCard >
-                </SwiperSlide>
-                <SwiperSlide >
-                <CustomCard >hi2</CustomCard >
-                </SwiperSlide>
-                <SwiperSlide >
-                <CustomCard >hi3</CustomCard >
-                </SwiperSlide>
-                <SwiperSlide >
-                <CustomCard >hi4</CustomCard >
-                </SwiperSlide>
-                <SwiperSlide >
-                <CustomCard >hi5</CustomCard >
-                </SwiperSlide>
+                {showNovelList}
             </Swiper>
-    </div>
+        </div>
       );
 };
 
