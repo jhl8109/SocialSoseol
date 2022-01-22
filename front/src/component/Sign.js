@@ -55,7 +55,7 @@ function SignIn(props) {
         redirect: 'follow'
         };
 
-        fetch("http://localhost:80/login", requestOptions)
+        fetch("http://143.248.75.29/login", requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result); 
@@ -86,13 +86,10 @@ function SignIn(props) {
                 }
             } else if ((index[0]+"") === "loginSuccess") {
                 console.log("bbbb");
-                window.location.href = "/main";
+                window.location.href = "/novel";
             }
         })
         .catch(error => console.log('error', error));
-    
-        //  로그인시 메인화면으로 이동하는 코드
-        window.location.href = "/novel";
         
     }
 

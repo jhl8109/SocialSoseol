@@ -7,7 +7,7 @@ function NovelPaper(props) {
     const [heart,setHeart] = useState(false);
     const {novelList,setNovelList} = props;
     const cardStyle = {'margin' : '10px', 'width' : '1000px'};
-   
+
     function heartClick() {
         setHeart(!heart);
     }
