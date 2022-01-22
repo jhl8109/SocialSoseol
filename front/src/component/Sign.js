@@ -15,7 +15,7 @@ function SignIn(props) {
     const [idErrMsg, setIdErrMsg] = useState(null);
     const [pwErrMsg, setPwErrMsg] = useState(null);
     const [idValue, setIdValue] = useState('');
-    const [pwValue, setPwValue] = useState('');
+    const [pwValue, setPwValue] = useState(''); 
 
 
     let idChange = (e) => {
@@ -92,7 +92,7 @@ function SignIn(props) {
         .catch(error => console.log('error', error));
     
         //  로그인시 메인화면으로 이동하는 코드
-        //window.location.href = "/main";
+        window.location.href = "/novel";
         
     }
 
@@ -158,9 +158,6 @@ function SignUp(props) {
         .catch(error => console.log('error', error));
 
         setSign(0);
-    }
-    let nameChange = (e) => {
-        setNameValue(e.target.value);
     }
     let nameChange = (e) => {
         setNameValue(e.target.value);
