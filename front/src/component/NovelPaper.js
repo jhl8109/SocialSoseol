@@ -1,15 +1,40 @@
 import React, {useState} from "react";
-import {Paper,Typography} from '@mui/material';
+import { Card,Typography, CardHeader, CardMedia,CardContent, IconButton, Grid } from '@mui/material';
+import {DeleteOutlined} from '@mui/icons-material';
+import {AiOutlineHeart, AiTwotoneHeart} from 'react-icons/ai';
 
 function NovelPaper(props) {
-    const paperStyle = {'marginTop' : '30px', 'width' : '75vh', 'height' : '200px'};
+    const [heart,setHeart] = useState(false);
     const {novelList,setNovelList} = props;
+    const cardStyle = {'margin' : '10px', 'width' : '1000px'};
+   
+    function heartClick() {
+        setHeart(!heart);
+    }
     const showNovelList = novelList.map( (card, index) => {
-        return (novelList[index] === false ?   
-        <Paper style = {paperStyle} elevation={4}>
-            <Typography style = {{textAlign: "center", marginBottom:"10px", border:"1px solid black"}}variant="h5">jhl8109</Typography>
-            <Typography variant="body2">zzzzzzzzzzzzzzzzzzzzzzzzzzzzz</Typography>
-        </Paper>
+        return (novelList[index] === false ? 
+            <div>
+            <Card style={cardStyle}>
+                <CardHeader
+                    action={
+                        <div>
+                            <IconButton aria-label="settings" >
+                                <DeleteOutlined />
+                            </IconButton>
+                            <IconButton aria-label="settings" onClick={heartClick}>
+                            {heart === false?  <AiOutlineHeart/>: <AiTwotoneHeart color="red"/>}
+                            </IconButton>
+                        </div>
+                    }
+                    title = "title"
+                />
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary">
+                   zzzz
+                    </Typography>
+                </CardContent>
+            </Card>
+        </div>
             : <></>)
         }
     )
@@ -19,5 +44,6 @@ function NovelPaper(props) {
         </div>
     )
 }
+
 
 export default NovelPaper;

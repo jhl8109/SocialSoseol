@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useRef} from "react";
 import SwiperCore, {Navigation } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
@@ -23,19 +23,20 @@ function CustomCard() {
                     action={
                         <div>
                             <IconButton aria-label="settings" >
-                                <DeleteOutlined />
+                                <DeleteOutlined/>
                             </IconButton>
                             <IconButton aria-label="settings" onClick={heartClick}>
                             {heart === false?  <AiOutlineHeart/>: <AiTwotoneHeart color="red"/>}
                             </IconButton>
                         </div>
                     }
-                    title = "test"
-                    subheader = "test2"
+                    title = "title"
                 />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary">
-                        details
+                    01234567890123456789012345678901234567890
+                    123456789012345678901234567890123456789
+                    012345678901234567890123456789
                     </Typography>
                 </CardContent>
             </Card>
@@ -47,7 +48,6 @@ function MainSwipe(props) {
     const {novelList,setNovelList} = props
     const cardStyle = {'margin' : '10px', 'width' : '600px'};
     const showNovelList = novelList.map( (card, index) => {
-        console.log(index);
         return (novelList[index] === true ? <SwiperSlide key={index} onClick={()=>{makeNovel(index)}}> 
         <CustomCard ></CustomCard >
         </SwiperSlide > : <></>)
@@ -55,6 +55,7 @@ function MainSwipe(props) {
     )
 
     function makeNovel(index) {
+        console.log(index);
         var tmp = novelList;
         tmp[index] = false;
         setNovelList([...tmp])
