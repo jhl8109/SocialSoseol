@@ -10,7 +10,10 @@ function SignIn(props) {
     const btnStyle = {margin:'8px 0'}
     const textStyle = {margin:'8px 0'}
     const {setSign} = props;
-    
+    const [idErr, setIdErr] = useState(false);
+    const [pwErr, setPwErr] = useState(false);
+    const [idErrMsg, setIdErrMsg] = useState(null);
+    const [pwErrMsg, setPwErrMsg] = useState(null);
     const [idValue, setIdValue] = useState('');
     const [pwValue, setPwValue] = useState('');
 
@@ -33,6 +36,7 @@ function SignIn(props) {
 
 
     let btnSubmit = (e) => {
+        var json_result;
         e.preventDefault();
         setIdValue('');
         setPwValue('');
@@ -53,8 +57,40 @@ function SignIn(props) {
 
         fetch("http://localhost:80/login", requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result); 
+            var obj = JSON.parse(result);
+            let index = [];
+            var message;
+            for (let x in obj) {
+                index.push(x);
+            }
+            
+            if ((index[0]+"") === "errors") {
+                console.log("aaaa");
+                console.log(obj[`${index[0]}`][0].msg);
+                message = obj[`${index[0]}`][0].msg;
+                const arr = message.split(" ");
+                if (arr[0] === "Id") {
+                    console.log("id error");
+                    setIdErr(true);
+                    setPwErr(false);
+                    setIdErrMsg(obj[`${index[0]}`][0].msg);
+                    setPwErrMsg(null);
+                } else if (arr[0] === "Password") {
+                    console.log("pw error");
+                    setIdErr(false);
+                    setPwErr(true);
+                    setIdErrMsg(null);
+                    setPwErrMsg(obj[`${index[0]}`][0].msg);
+                }
+            } else if ((index[0]+"") === "loginSuccess") {
+                console.log("bbbb");
+                window.location.href = "/main";
+            }
+        })
         .catch(error => console.log('error', error));
+    
         //  로그인시 메인화면으로 이동하는 코드
         //window.location.href = "/main";
         
@@ -67,8 +103,8 @@ function SignIn(props) {
                     <Avatar style={avatarStyle}><LockIcon/></Avatar>
                     <Typography variant="h5">Sign in</Typography> 
                 </Grid>
-                <TextField variant='standard' style = {textStyle} label='아이디' placeholder="Enter ID"  inputProps={inputProps} onChange={e=>idChange(e)} fullWidth required/>
-                <TextField variant='standard' style = {textStyle} label='비밀번호' placeholder="Enter password" type='password' inputProps={inputProps} onChange={e=>pwChange(e)} fullWidth required/>
+                <TextField error = {idErr===true?true:false} helperText = {idErrMsg!=null?idErrMsg : ""} variant='standard' value = {idValue} style = {textStyle} label='아이디' placeholder="Enter ID"  inputProps={inputProps} onChange={e=>idChange(e)} fullWidth required/>
+                <TextField error = {pwErr===true?true:false} helperText = {pwErrMsg!=null?pwErrMsg : ""} variant='standard' value = {pwValue} style = {textStyle} label='비밀번호' placeholder="Enter password" type='password' inputProps={inputProps} onChange={e=>pwChange(e)} fullWidth required/>
                 <FormControlLabel
                     control={
                         <Checkbox
