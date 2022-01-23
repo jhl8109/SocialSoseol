@@ -4,7 +4,6 @@ import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import {Swiper, SwiperSlide} from "swiper/react";
 import { Card,Typography, CardHeader, CardMedia,CardContent, IconButton, Grid } from '@mui/material';
-import {DeleteOutlined} from '@mui/icons-material';
 import {AiOutlineHeart, AiTwotoneHeart} from 'react-icons/ai';
 
 function CustomCard(props) {
@@ -13,8 +12,10 @@ function CustomCard(props) {
     
     const cardStyle = {'margin' : '10px', 'width' : '95%'};
 
-    function heartClick() {
+    function heartClick(e) {
+        e.stopPropagation();
         setHeart(!heart);
+        console.log("heart");
     }
 
     return (
@@ -23,11 +24,8 @@ function CustomCard(props) {
                 <CardHeader
                     action={
                         <div>
-                            <IconButton aria-label="settings" >
-                                <DeleteOutlined/>
-                            </IconButton>
-                            <IconButton aria-label="settings" onClick={heartClick}>
-                            {heart === false?  <AiOutlineHeart/>: <AiTwotoneHeart color="red"/>}
+                            <IconButton >
+                                {heart === false?  <AiOutlineHeart onClick={heartClick} />: <AiTwotoneHeart color="red" onClick={heartClick}/>}
                             </IconButton>
                         </div>
                     }
@@ -57,7 +55,7 @@ function MainSwipe(props) {
         var raw = '{"bookfrom":1, "postid":7}';
         const obj = JSON.parse(raw);
 
-        var url = new URL("http://143.248.75.29/getnextnode"),
+        var url = new URL("http://143.248.75.68:80/getnextnode"),
             params = obj
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         fetch(url)
@@ -68,17 +66,20 @@ function MainSwipe(props) {
             setNodeList(result.getnextnode);
         })
         .catch(error => console.log('error', error));
+        setNodeList([{writer:"jeho",content:"안녕하세요."}]);
     },[])
 
-    const showNodeList = nodeList.map( (card, index) => {
-        return (nodeList[index] !== undefined ? <SwiperSlide key={index} onClick={()=>{makeNovel(index)}}> 
-        <CustomCard content = {card.content} writer = {card.writer}></CustomCard >
+    const showNodeList = nodeList.map((card, index) => {
+        console.log("make");
+        return (nodeList[index] !== undefined ? <SwiperSlide key={index} onClick={()=>makeNovel(index)} > 
+        <CustomCard content = {card.content} writer = {card.writer} ></CustomCard>
         </SwiperSlide > : <></>)
         }
     )
 
     function makeNovel(index) {
-        console.log(nodeList[index]);
+        console.log("hello");
+        setBookId(index);
         setNovelList([...novelList,nodeList[index]]);
         setNodeList([]);
     }
