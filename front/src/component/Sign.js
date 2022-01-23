@@ -20,13 +20,13 @@ function SignIn(props) {
 
 
     useEffect(()=>{
-        axios.get('auth').then(response=> {
-            console.log(response);
-        })
-        // fetch("auth", {credentials : 'include'})
-        // .then(response => response.text())
-        // .then(result => {console.log(result)})
-        // .catch(error => console.log('error', error));
+        // axios.get('auth').then(response=> {
+        //     console.log(response);
+        // })
+        fetch("http://143.248.75.68:80/auth", {credentials : 'include'})
+        .then(response => response.text())
+        .then(result => {console.log(result)})
+        .catch(error => console.log('error', error));
     },[])
 
 
