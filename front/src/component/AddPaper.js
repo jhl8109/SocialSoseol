@@ -39,16 +39,16 @@ function AddPaper(props) {
   }
 
     let btnSubmit = (e) => {
-        e.preventDefault();
-        console.log(textValue);
+      e.preventDefault();
+      console.log(textValue);
 
-        /* postman code */
-        var myHeaders = new Headers();
+      /* postman code */
+      var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify({
-        "bookfrom": 4,
-        "writer": 14,
+        "bookfrom": 1,
+        "writer": "사랑꾼",
         "content": textValue // db에 보낼 텍스트
       });
 
@@ -66,8 +66,8 @@ function AddPaper(props) {
         /* postman code */
         setTextValue("");
         setTitleValue("");
-        var tmp = novelList;
-        setNovelList([...novelList,true]);
+        //var tmp = novelList;
+        //setNovelList([...novelList,true]);
     }
 
     return (
