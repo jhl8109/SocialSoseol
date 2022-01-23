@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import { Paper, Grid, Avatar, Typography, TextField, FormControlLabel,Checkbox, Button, Link} from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
+import axios from 'axios'
 
 const inputProps = {minLength: "6", maxLength: "15", step: "1"};
 
@@ -16,6 +17,17 @@ function SignIn(props) {
     const [pwErrMsg, setPwErrMsg] = useState(null);
     const [idValue, setIdValue] = useState('');
     const [pwValue, setPwValue] = useState(''); 
+
+
+    useEffect(()=>{
+        axios.get('auth').then(response=> {
+            console.log(response);
+        })
+        // fetch("auth", {credentials : 'include'})
+        // .then(response => response.text())
+        // .then(result => {console.log(result)})
+        // .catch(error => console.log('error', error));
+    },[])
 
 
     let idChange = (e) => {
@@ -83,25 +95,6 @@ function SignIn(props) {
                 console.log("bbbb");
                 window.location.href = "/novel";
             }
-            /*if ((index[0]+"") === "errors") {
-                console.log("aaaa");
-                console.log(obj[`${index[0]}`][0].msg);
-                message = obj[`${index[0]}`][0].msg;
-                const arr = message.split(" ");
-                if (arr[0] === "Id") {
-                    console.log("id error");
-                    setIdErr(false);
-                    setPwErr(true);
-                    setIdErrMsg(obj[`${index[0]}`][0].msg);
-                    setPwErrMsg(null);
-                } else if (arr[0] === "Password") {
-                    console.log("pw error");
-                    setIdErr(true);
-                    setPwErr(false);
-                    setIdErrMsg(null);
-                    setPwErrMsg(obj[`${index[0]}`][0].msg);
-                }
-            }*/ 
         })
         .catch(error => console.log('error', error));
         
@@ -149,6 +142,7 @@ function SignUp(props) {
     function handleClick() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("withCredentials", true);
 
         var raw = JSON.stringify({
             "loginid":idValue,
@@ -157,11 +151,12 @@ function SignUp(props) {
         });
 
         var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-        };
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow',
+            credentials: "same-origin"
+            };
 
         fetch("http://143.248.75.68:80/register", requestOptions)
         .then(response => response.text())
