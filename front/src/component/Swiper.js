@@ -10,6 +10,8 @@ function CustomCard(props) {
 
     const [heart,setHeart] = useState(false);
     
+    
+
     const cardStyle = {'margin' : '10px', 'width' : '95%'};
 
     function heartClick(e) {
@@ -76,6 +78,38 @@ function MainSwipe(props) {
         </SwiperSlide > : <></>)
         }
     )
+
+    /* postman */
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = '{"bookfrom":1, "postid":7}';
+    const obj = JSON.parse(raw);
+
+    var url = new URL("http://localhost:80/getnextnode"),
+        params = obj
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    fetch(url)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
+    /*
+    var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+    */
+
+    /*
+    fetch("http://localhost:80/getnextnode", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+    */
+    /* postman */
 
     function makeNovel(index) {
         console.log("hello");

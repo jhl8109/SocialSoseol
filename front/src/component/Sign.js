@@ -81,7 +81,7 @@ function SignIn(props) {
                 setPwErrMsg(obj.message);
             } else if (obj.loginSuccess === true) {
                 console.log("bbbb");
-                //window.location.href = "/novel";
+                window.location.href = "/novel";
             }
             /*if ((index[0]+"") === "errors") {
                 console.log("aaaa");
