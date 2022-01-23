@@ -54,40 +54,54 @@ function SignIn(props) {
         body: raw,
         redirect: 'follow'
         };
-
-        fetch("http://143.248.75.29/login", requestOptions)
+        var obj = new Object();
+        fetch("http://143.248.75.68:80/login", requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result); 
-            var obj = JSON.parse(result);
+            obj = JSON.parse(result);
             let index = [];
+            console.log("login : ",obj.loginSuccess);
             var message;
             for (let x in obj) {
                 index.push(x);
             }
-            
-            if ((index[0]+"") === "errors") {
+            /* 파싱 다시 해야함 */
+            if (obj.message === "Id doesn't exists") {
+                console.log("id err");
+                setIdErr(true);
+                setPwErr(false);
+                setIdErrMsg(obj.message);
+                setPwErrMsg(null);
+            } else if (obj.message === "wrong password") {
+                console.log("pw error");
+                setIdErr(false);
+                setPwErr(true);
+                setIdErrMsg(null);
+                setPwErrMsg(obj.message);
+            } else if (obj.loginSuccess === true) {
+                console.log("bbbb");
+                //window.location.href = "/novel";
+            }
+            /*if ((index[0]+"") === "errors") {
                 console.log("aaaa");
                 console.log(obj[`${index[0]}`][0].msg);
                 message = obj[`${index[0]}`][0].msg;
                 const arr = message.split(" ");
                 if (arr[0] === "Id") {
                     console.log("id error");
-                    setIdErr(true);
-                    setPwErr(false);
+                    setIdErr(false);
+                    setPwErr(true);
                     setIdErrMsg(obj[`${index[0]}`][0].msg);
                     setPwErrMsg(null);
                 } else if (arr[0] === "Password") {
                     console.log("pw error");
-                    setIdErr(false);
-                    setPwErr(true);
+                    setIdErr(true);
+                    setPwErr(false);
                     setIdErrMsg(null);
                     setPwErrMsg(obj[`${index[0]}`][0].msg);
                 }
-            } else if ((index[0]+"") === "loginSuccess") {
-                console.log("bbbb");
-                window.location.href = "/novel";
-            }
+            }*/ 
         })
         .catch(error => console.log('error', error));
         
@@ -98,7 +112,7 @@ function SignIn(props) {
             <Paper elevation={8} style = {paperStyle}>
                 <Grid align="center">
                     <Avatar style={avatarStyle}><LockIcon/></Avatar>
-                    <Typography variant="h5">Sign in</Typography> 
+                    <Typography variant="h5">로그인</Typography> 
                 </Grid>
                 <TextField error = {idErr===true?true:false} helperText = {idErrMsg!=null?idErrMsg : ""} variant='standard' value = {idValue} style = {textStyle} label='아이디' placeholder="Enter ID"  inputProps={inputProps} onChange={e=>idChange(e)} fullWidth required/>
                 <TextField error = {pwErr===true?true:false} helperText = {pwErrMsg!=null?pwErrMsg : ""} variant='standard' value = {pwValue} style = {textStyle} label='비밀번호' placeholder="Enter password" type='password' inputProps={inputProps} onChange={e=>pwChange(e)} fullWidth required/>
@@ -111,7 +125,7 @@ function SignIn(props) {
                     }
                     label="ID 기억하기"
                 />
-                <Button type='submit' color='primary' variant="contained" style={btnStyle} onClick={btnSubmit}fullWidth>Sign in</Button>
+                <Button type='submit' color='primary' variant="contained" style={btnStyle} onClick={btnSubmit}fullWidth>로그인</Button>
                 <Typography style = {textStyle}> 계정이 없으신가요? 
                     <Link href="#" onClick={btnSign}>회원가입</Link>
                 </Typography>
@@ -149,7 +163,7 @@ function SignUp(props) {
         redirect: 'follow'
         };
 
-        fetch("http://localhost:80/register", requestOptions)
+        fetch("http://143.248.75.68:80/register", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -181,12 +195,12 @@ function SignUp(props) {
             <Paper elevation={8} style = {paperStyle}>
                 <Grid align="center">
                     <Avatar style={avatarStyle}><LockIcon/></Avatar>
-                    <Typography variant="h5">Sign Up</Typography> 
+                    <Typography variant="h5">회원가입</Typography> 
                 </Grid>
                 <TextField style = {textStyle} label='닉네임' placeholder="Enter NickName" inputProps={inputProps} onChange={(e) => nameChange(e)} fullWidth required/>
                 <TextField style = {textStyle} label='아이디' placeholder="Enter ID" inputProps={inputProps} onChange={(e) => idChange(e)} error={idErr === true ? true : false}  fullWidth required/>
                 <TextField style = {textStyle} label='비밀번호' placeholder="Enter password" type='password' onChange={(e) => pwChange(e)} error={pwErr === true ? true : false} inputProps={inputProps} fullWidth required/>
-                <Button onClick = {handleClick} type='submit' color='primary' variant="contained" style={btnStyle} disabled={(idErr || pwErr) ? true : false} fullWidth>sign up</Button>
+                <Button onClick = {handleClick} type='submit' color='primary' variant="contained" style={btnStyle} disabled={(idErr || pwErr) ? true : false} fullWidth>회원가입</Button>
             </Paper>
         </Grid>
       );

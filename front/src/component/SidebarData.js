@@ -38,8 +38,8 @@ export const SidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Contact Us',
-        path: '/Contact',
+        title: '제작자',
+        path: '/contact',
         icon: <BsIcons.BsEnvelopeFill />,
         cName: 'nav-text'
     }
