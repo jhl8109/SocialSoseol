@@ -86,7 +86,7 @@ function MainSwipe(props) {
     var raw = '{"bookfrom":1, "postid":7}';
     const obj = JSON.parse(raw);
 
-    var url = new URL("http://localhost:80/getnextnode"),
+    var url = new URL("http://143.248.75.68:80/getnextnode"),
         params = obj
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     fetch(url)
