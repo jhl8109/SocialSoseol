@@ -83,7 +83,7 @@ function MainSwipe(props) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = '{"bookfrom":1, "postid":7}';
+    var raw = '{"bookfrom":1, "postid":40}';
     const obj = JSON.parse(raw);
 
     var url = new URL("http://143.248.75.68:80/getnextnode"),

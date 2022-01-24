@@ -66,8 +66,8 @@ function AddPaper(props) {
         /* postman code */
         setTextValue("");
         setTitleValue("");
-        //var tmp = novelList;
-        //setNovelList([...novelList,true]);
+        var tmp = novelList;
+        setNovelList([...novelList,true]);
     }
 
     return (
