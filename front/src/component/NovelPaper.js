@@ -25,7 +25,7 @@ useEffect(()=>{
         for (let i = 0; i < heart.length;i++) {
             console.log()
             if (i === index) arr.push(!heart[i]);
-            arr.push(heart[i]);
+            else arr.push(heart[i]);
         }
         setHeart(arr);
     }
